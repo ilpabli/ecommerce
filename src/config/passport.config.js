@@ -32,7 +32,8 @@ const incializePassport = () => {
       {
         clientID: enviroment.GITID,
         clientSecret: enviroment.GITSECRET,
-        callbackURL: "/api/sessions/githubcallback",
+        callbackURL:
+          "https://ecommerce-production-47bf.up.railway.app/api/sessions/githubcallback",
       },
       async (accessToken, refreshToken, profile, done) => {
         try {

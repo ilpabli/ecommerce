@@ -32,7 +32,7 @@ const incializePassport = () => {
       {
         clientID: enviroment.GITID,
         clientSecret: enviroment.GITSECRET,
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+        callbackURL: "/api/sessions/githubcallback",
       },
       async (accessToken, refreshToken, profile, done) => {
         try {

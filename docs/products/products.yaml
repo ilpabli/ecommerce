@@ -1,0 +1,161 @@
+paths:
+  /api/products:
+    get:
+      summary: "Obtener la lista de productos"
+      tags:
+        - Productos
+      parameters:
+        - name: limit
+          in: query
+          type: integer
+          default: 10
+          description: "Máximo de productos por página"
+        - name: page
+          in: query
+          type: integer
+          default: 1
+          description: "Número de página"
+      responses:
+        201:
+          description: "Respuesta exitosa"
+    post:
+      summary: "Crear un nuevo producto"
+      tags:
+        - Productos
+      security:
+        - jwt_auth: []
+      parameters:
+        - name: product
+          in: body
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              price:
+                type: number
+            required:
+              - name
+              - price
+      responses:
+        201:
+          description: "Respuesta exitosa"
+        400:
+          description: "Solicitud incorrecta"
+      x-role-required: premium
+  /products/{pid}:
+    get:
+      summary: "Obtener un producto por ID"
+      tags:
+        - Productos
+      parameters:
+        - name: pid
+          in: path
+          type: string
+          required: true
+          description: "ID del producto"
+      responses:
+        201:
+          description: "Respuesta exitosa"
+    put:
+      summary: "Actualizar un producto por ID"
+      tags:
+        - Productos
+      security:
+        - jwt_auth: []
+      parameters:
+        - name: pid
+          in: path
+          type: string
+          required: true
+          description: "ID del producto"
+        - name: product
+          in: body
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              price:
+                type: number
+            required:
+              - name
+              - price
+      responses:
+        201:
+          description: "Respuesta exitosa"
+        403:
+          description: "Permiso denegado"
+    delete:
+      summary: "Borrar un producto por ID"
+      tags:
+        - Productos
+      security:
+        - jwt_auth: []
+      parameters:
+        - name: pid
+          in: path
+          type: string
+          required: true
+          description: "ID del producto"
+      responses:
+        204:
+          description: "Sin contenido"
+        403:
+          description: "Permiso denegado"
+securityDefinitions:
+  jwt_auth:
+    type: apiKey
+    name: Authorization
+    in: header
+
+components:
+  schemas:
+    Productos:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: "ID del producto (generado automáticamente por MongoDB)"
+        title:
+          type: string
+          description: "Nombre del producto"
+        description:
+          type: string
+          description: "Descripción del producto"
+        code:
+          type: string
+          unique: true
+          description: "Código del usuario"
+        price:
+          type: number
+          description: "Precio del producto"
+        status:
+          type: boolean
+          description: "Estado del producto"
+        stock:
+          type: number
+          description: "Stock del producto"
+        category:
+          type: string
+          description: "Categoría del producto"
+        thumbnails:
+          type: array
+          description: "Fotos del producto"
+        owner:
+          type: string
+          description: "Creador del producto"
+      example:
+        _id: ObjectId("5f9b2b3b9c4c9b1b2c9b1b2c")
+        title: "Sandía"
+        description: "Dulce"
+        code: "san2023"
+        price: 100
+        status: true
+        stock: 100
+        category: "frutas"
+        owner: "admin"

@@ -1,0 +1,195 @@
+paths:
+  /api/carts:
+    post:
+      summary: "Crear un nuevo carrito"
+      tags:
+        - Carritos
+      parameters:
+        - name: cart
+          in: body
+          schema:
+            type: object
+            description: "Datos del nuevo carrito"
+      responses:
+        201:
+          description: "Carrito creado exitosamente"
+      x-role-required: premium
+    put:
+      summary: "Agregar de forma masiva al carrito"
+      tags:
+        - Carritos
+      security:
+        - jwt_auth: []
+      parameters:
+        - name: cid
+          in: path
+          type: string
+          required: true
+          description: "ID del carrito"
+        - name: data
+          in: body
+          schema:
+            type: object
+            description: "Datos para agregar al carrito"
+      responses:
+        201:
+          description: "Productos agregados al carrito exitosamente"
+      x-role-required: premium
+  /carts/{cid}:
+    get:
+      summary: "Obtener carrito por ID"
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          type: string
+          required: true
+          description: "ID del carrito"
+      responses:
+        201:
+          description: "Carrito recuperado exitosamente"
+    put:
+      summary: "Actualizar carrito por ID"
+      tags:
+        - Carritos
+      security:
+        - jwt_auth: []
+      parameters:
+        - name: cid
+          in: path
+          type: string
+          required: true
+          description: "ID del carrito"
+        - name: cart
+          in: body
+          schema:
+            type: object
+            description: "Datos actualizados del carrito"
+      responses:
+        201:
+          description: "Carrito actualizado exitosamente"
+      x-role-required: premium
+    delete:
+      summary: "Borrar carrito por ID"
+      tags:
+        - Carritos
+      security:
+        - jwt_auth: []
+      parameters:
+        - name: cid
+          in: path
+          type: string
+          required: true
+          description: "ID del carrito"
+      responses:
+        201:
+          description: "Carrito vaciado exitosamente"
+      x-role-required: premium
+  /carts/{cid}/products/{pid}:
+    post:
+      summary: "Agregar producto al carrito"
+      tags:
+        - Carritos
+      security:
+        - jwt_auth: []
+      parameters:
+        - name: cid
+          in: path
+          type: string
+          required: true
+          description: "ID del carrito"
+        - name: pid
+          in: path
+          type: string
+          required: true
+          description: "ID del producto"
+      responses:
+        201:
+          description: "Producto agregado al carrito exitosamente"
+      x-role-required: premium
+    put:
+      summary: "Actualizar producto en el carrito"
+      tags:
+        - Carritos
+      security:
+        - jwt_auth: []
+      parameters:
+        - name: cid
+          in: path
+          type: string
+          required: true
+          description: "ID del carrito"
+        - name: pid
+          in: path
+          type: string
+          required: true
+          description: "ID del producto"
+        - name: product
+          in: body
+          schema:
+            type: object
+            description: "Datos actualizados del producto"
+      responses:
+        201:
+          description: "Producto en el carrito actualizado exitosamente"
+      x-role-required: premium
+    delete:
+      summary: "Eliminar producto del carrito"
+      tags:
+        - Carritos
+      security:
+        - jwt_auth: []
+      parameters:
+        - name: cid
+          in: path
+          type: string
+          required: true
+          description: "ID del carrito"
+        - name: pid
+          in: path
+          type: string
+          required: true
+          description: "ID del producto"
+      responses:
+        201:
+          description: "Producto eliminado del carrito exitosamente"
+      x-role-required: premium
+  /carts/{cid}/purchase:
+    post:
+      summary: "Finalizar la compra"
+      tags:
+        - Carritos
+      security:
+        - jwt_auth: []
+      parameters:
+        - name: cid
+          in: path
+          type: string
+          required: true
+          description: "ID del carrito"
+      responses:
+        201:
+          description: "Compra del carrito realizada exitosamente"
+        400:
+          description: "Compra fallida"
+securityDefinitions:
+  jwt_auth:
+    type: apiKey
+    name: Authorization
+    in: header
+
+components:
+  schemas:
+    Carritos:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: "ID del carrito (generado automáticamente por MongoDB)"
+        products:
+          type: array
+          description: "Arreglo con todos los productos"
+      example:
+        _id: ObjectId("5f9b2b3b9c4c9b1b2c9b1b2c")
+        products: [{ sandía: 1 }, { pera: 2 }]

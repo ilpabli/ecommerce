@@ -142,7 +142,7 @@ usersRouter.post(
   }
 );
 
-usersRouter.get("/", middlewarePassportJWT, async (req, res) => {
+usersRouter.get("/", async (req, res) => {
   const listUsers = await userController.getAllFiltered();
   try {
     res.status(201).send(listUsers);

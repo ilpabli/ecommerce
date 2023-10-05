@@ -5,7 +5,7 @@ const program = new Command();
 program
   .version("0.0.1")
   .option("--db <env>", "Selecciona persistencia", "mongo")
-  .option("--mode <env>", "Selecciona tu modo", "dev");
+  .option("--mode <env>", "Selecciona tu modo", "prod");
 
 program.parse(process.argv);
 
